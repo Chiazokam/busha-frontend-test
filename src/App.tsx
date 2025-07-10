@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Sidebar } from "./components/Sidebar";
 import { Header } from "./components/Header";
 import styled from "styled-components";
+import { NavMenu } from "./components/NavMenu";
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -10,7 +11,7 @@ const AppContainer = styled.div`
   height: 100vh;
 `;
 
-const ContentWrapper = styled.div`
+const MainWrapper = styled.div`
   display: flex;
   flex-basis: 1;
   height: 100%;
@@ -18,20 +19,46 @@ const ContentWrapper = styled.div`
   overflow: hidden;
 `;
 
+const MainContentWrapper = styled.main`
+    padding-left: 160px;
+    padding-top: 60px;
+    display: flex;
+
+    @media (max-width: 1024px) {
+      padding-left: 50px;
+    }
+
+    @media (max-width: 768px) {
+      padding-left: 25px;
+    }
+`;
+
+const NavWrapper = styled.div`
+  width: 240px;
+
+  @media (max-width: 768px) {
+      display: none;
+  }
+`;
+
   return (
     <AppContainer>
         <Header
-          isSidebarOpen={isSidebarOpen}
           openSidebar={() => setIsSidebarOpen(true)}
         />
-      <ContentWrapper>
-      {isSidebarOpen && <Sidebar onClose={() => setIsSidebarOpen(false)} />}
-        <div className='flex w-full justify-center overflow-y-auto'>
-          <div className='flex flex-col lg:max-w-4xl w-full mt-8'>
-            <div>Main Content</div>
-          </div>
-        </div>
-      </ContentWrapper>
+
+        <MainWrapper>
+          {isSidebarOpen && <Sidebar onClose={() => setIsSidebarOpen(false)} />}
+
+            <MainContentWrapper>
+              <NavWrapper>
+                <NavMenu />
+              </NavWrapper>
+
+              Main Content
+            </MainContentWrapper>
+            
+      </MainWrapper>
     </AppContainer>
   )
 }

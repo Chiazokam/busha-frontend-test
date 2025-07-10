@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 interface Props {
-    isSidebarOpen: boolean
     openSidebar: () => void
 }
 
@@ -10,7 +9,7 @@ const user = {
     lastName: 'Akindunjoye'
 }
 
-export const Header = ({ isSidebarOpen, openSidebar }: Props) => {
+export const Header = ({ openSidebar }: Props) => {
 
     const HeaderContainer = styled.header`
         height: 56px;
@@ -20,6 +19,11 @@ export const Header = ({ isSidebarOpen, openSidebar }: Props) => {
         align-items: center;
         padding-left: 160px;
         padding-right: 160px;
+
+         @media (max-width: 1024px) {
+            padding-left: 50px;
+            padding-right: 50px;
+        }
 
         @media (max-width: 768px) {
             padding-left: 25px;

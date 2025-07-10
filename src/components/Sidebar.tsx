@@ -1,12 +1,11 @@
 import styled from "styled-components";
+import { NavMenu } from "./NavMenu";
 
 interface Props {
     onClose: () => void
 }
 
 const SidebarContainer = styled.div`
-    
-
     @media (max-width: 768px) {
         top: 0;
         left: 0;
@@ -19,6 +18,10 @@ const SidebarContainer = styled.div`
     @media (min-width: 768px) {
         display: none;
     }
+
+    @media (max-width: 380px) {
+        width: 100%;
+    }
 `;
 
 const SidebarHeader = styled.div`
@@ -26,6 +29,7 @@ const SidebarHeader = styled.div`
     justify-content: right;
     padding-top: 15px;
     padding-right: 15px;
+    margin-bottom: 30px;
 `;
 
 const CloseButton = styled.button`
@@ -46,13 +50,14 @@ const CloseButton = styled.button`
     }
 `;
 
-
 export const Sidebar = ({ onClose }: Props) => {
     return (
         <SidebarContainer>
             <SidebarHeader>
                 <CloseButton onClick={onClose}>x</CloseButton>
             </SidebarHeader>
+
+            <NavMenu />
         </SidebarContainer>
     )
 }
