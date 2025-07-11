@@ -6,6 +6,8 @@ interface Props {
 }
 
 const SidebarContainer = styled.div`
+    z-index: 100;
+    
     @media (max-width: 768px) {
         top: 0;
         left: 0;
@@ -54,7 +56,7 @@ export const Sidebar = ({ onClose }: Props) => {
     return (
         <SidebarContainer>
             <SidebarHeader>
-                <CloseButton onClick={onClose}>x</CloseButton>
+                <CloseButton onClick={onClose}>&#10007;</CloseButton>
             </SidebarHeader>
 
             <NavMenu />
