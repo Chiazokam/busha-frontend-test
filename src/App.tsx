@@ -3,6 +3,7 @@ import { Sidebar } from "./components/Sidebar";
 import { Header } from "./components/Header";
 import styled from "styled-components";
 import { NavMenu } from "./components/NavMenu";
+import { AccountsPage } from "./pages/Accounts";
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -12,11 +13,8 @@ const AppContainer = styled.div`
 `;
 
 const MainWrapper = styled.div`
-  display: flex;
-  flex-basis: 1;
   height: 100%;
   width: 100%;
-  overflow: hidden;
 `;
 
 const MainContentWrapper = styled.main`
@@ -24,21 +22,38 @@ const MainContentWrapper = styled.main`
     padding-top: 60px;
     display: flex;
 
-    @media (max-width: 1024px) {
+    @media (max-width: 1200px) {
       padding-left: 50px;
     }
 
     @media (max-width: 768px) {
       padding-left: 25px;
+      padding-top: 30px;
     }
 `;
 
 const NavWrapper = styled.div`
-  width: 240px;
+  width: 30%;
+  max-width: 240px;
+  min-width: 240px;
 
   @media (max-width: 768px) {
       display: none;
   }
+`;
+
+const MainContent = styled.div`
+  width: 70%;
+  padding-right: 160px;
+
+   @media (max-width: 1200px) {
+      padding-right: 50px;
+    }
+
+    @media (max-width: 768px) {
+      padding-right: 25px;
+      width: 100%;
+    }
 `;
 
   return (
@@ -55,7 +70,9 @@ const NavWrapper = styled.div`
                 <NavMenu />
               </NavWrapper>
 
-              Main Content
+              <MainContent>
+                <AccountsPage />
+              </MainContent>
             </MainContentWrapper>
             
       </MainWrapper>

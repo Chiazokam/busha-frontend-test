@@ -20,7 +20,7 @@ export const Header = ({ openSidebar }: Props) => {
         padding-left: 160px;
         padding-right: 160px;
 
-         @media (max-width: 1024px) {
+         @media (max-width: 1200px) {
             padding-left: 50px;
             padding-right: 50px;
         }
