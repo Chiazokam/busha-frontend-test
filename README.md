@@ -1,11 +1,5 @@
 # Busha Frontend test
 
-# My Assumptions
-- App failed to run, while debugging, I found out that node-sass was deprecated and I had to uninstall it and install sass instead. Hence, the change to package.json
-- The svg images on cloudinary were Not Found (404). I had to take the images as svg from the design and replace the ones from cloudinary
-- 
-
-
 ## Requirements
 
 Create the screens for a Busha MVP application.

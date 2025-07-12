@@ -10,14 +10,14 @@ const navItems = [
     { id: 5, title: 'Settings' }
 ]
 
+const NavWrapper = styled.nav`
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+`;
+
 export const NavMenu = () => {
     const [activeId, setActiveId] = useState(1)
-
-    const NavWrapper = styled.nav`
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-    `;
 
     return (
         <NavWrapper>

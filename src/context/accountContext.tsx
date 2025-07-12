@@ -1,5 +1,6 @@
-import { createContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useState, useEffect, ReactNode, useCallback } from 'react';
 import { AccountType } from '../types';
+import { useMount } from '../hooks/useMount';
 
 export const AccountsContext = createContext({ accounts: { data: [] as AccountType[], loading: false, error: '', refetch: () => {}, updateAccounts: (account: AccountType) => {}  }});
 
@@ -7,34 +8,31 @@ export const AccountsContextProvider = ({ children }: { children: ReactNode }) =
     const [data, setData] = useState<AccountType[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const isMounted = useMount();
 
-     useEffect(() => {
-        const controller = new AbortController();
-        fetchAccounts()
-
-        return () => {
-            controller.abort();
-        };
-    }, [])
-
-    const fetchAccounts = async () => {
+    const fetchAccounts = useCallback(async () => {
+        setLoading(true)
         try {
-            const accounts = await fetch('https://my-json-server.typicode.com/bushaHQ/busha-frontend-test/accounts', {
+            const accounts = await fetch('http://localhost:3090/accounts', {
                 method: 'GET'
             })
 
-            if (!accounts.ok) {
+            if (isMounted) {
+                const data = await accounts.json()
                 setLoading(false)
-                setError('Accounts Could not be fetched')
+                setData(data)
             }
-            const data = await accounts.json()
-            setLoading(false)
-            setData(data)
         } catch (error) {
-            setLoading(false)
-            setError('Network Error')
+            if (isMounted) {
+                setLoading(false)
+                setError('Network Error')
+            }
         }
-    }
+    }, [isMounted])
+
+    useEffect(() => {
+        fetchAccounts()
+    }, [fetchAccounts])
 
     const updateAccounts = (account: AccountType) => {
         setData(prev => [account, ...prev])

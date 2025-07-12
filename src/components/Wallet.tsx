@@ -82,7 +82,7 @@ export const Wallet = ({ account }: { account: AccountType }) => {
                     <Currency>{account.name}</Currency>
                 </CurrencyImageWrapper>
 
-                <Balance>{account.currency === 'NGN' && <span>&#8358;</span>} {formatBalance(account.balance)} {account.currency !== 'NGN' && <span>{account.currency}</span>}</Balance>
+                <Balance>{account.currency === 'NGN' && <span>&#8358;</span>} {account.balance} {account.currency !== 'NGN' && <span>{account.currency}</span>}</Balance>
             </Container>
 
             <IconWrapper>

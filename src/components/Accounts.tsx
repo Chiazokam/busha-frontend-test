@@ -105,18 +105,21 @@ interface Props {
     updateAccounts: (account: AccountType) => void
 }
 
-
 export const Accounts = ({ accounts, errorMessage, loading, refetch, updateAccounts }: Props) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
         <AccountsWrapper>
-            <TitleWrapper>
-                <Title>Wallets</Title>
-                {(!loading && !errorMessage) && <AddWallet onClick={() => setIsModalOpen(true)}>+ Add new wallet</AddWallet>}
-                <WalletModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} updateAccounts={updateAccounts} />
-            </TitleWrapper>
-            <Divider />
+            {(!loading && !errorMessage) && 
+            <>
+                <TitleWrapper>
+                    <Title>Wallets</Title>
+                    <AddWallet onClick={() => setIsModalOpen(true)}>+ Add new wallet</AddWallet>
+                    <WalletModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} updateAccounts={updateAccounts} />
+                </TitleWrapper>
+                <Divider />
+            </>
+            }
 
             {errorMessage ?
                 <Container>

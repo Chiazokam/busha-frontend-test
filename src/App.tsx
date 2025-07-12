@@ -7,9 +7,6 @@ import { AccountsPage } from "./pages/Accounts";
 import { AccountsContextProvider } from "./context/accountContext";
 import { WalletsContextProvider } from "./context/walletContext";
 
-function App() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-
 const AppContainer = styled.div`
   height: 100vh;
 `;
@@ -58,6 +55,10 @@ const MainContent = styled.div`
       width: 100%;
     }
 `;
+
+function App() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+
 
   return (
     <AccountsContextProvider>

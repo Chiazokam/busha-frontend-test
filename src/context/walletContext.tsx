@@ -14,28 +14,31 @@ export const WalletsContextProvider = ({ children }: { children: ReactNode }) =>
     const [saveError, setSaveError] = useState('');
 
      useEffect(() => {
-        const controller = new AbortController();
+        let isMounted = true;
 
-        fetchWallets()
+        if (isMounted) {
+            fetchWallets()
+        }
 
         return () => {
-            controller.abort();
+            isMounted = false; 
         };
     }, [])
 
     const fetchWallets = async () => {
         try {
-            const wallets = await fetch('https://my-json-server.typicode.com/bushaHQ/busha-frontend-test/wallets', {
+            const wallets = await fetch('http://localhost:3090/wallets', {
                 method: 'GET'
             })
 
             if (!wallets.ok) {
                 setLoading(false)
                 setError('Wallets could not be fetched')
+            } else {
+                const data = await wallets.json()
+                setLoading(false)
+                setData(data)
             }
-            const data = await wallets.json()
-            setLoading(false)
-            setData(data)
         } catch (error) {
             setLoading(false)
             setError('Network Error')
@@ -44,7 +47,7 @@ export const WalletsContextProvider = ({ children }: { children: ReactNode }) =>
 
     const saveWallet = async (wallet: WalletSaveType) => {
         try {
-            const created = await fetch('https://my-json-server.typicode.com/bushaHQ/busha-frontend-test/accounts', {
+            const created = await fetch('http://localhost:3090/accounts', {
                 method: 'POST',
                 body: JSON.stringify(wallet)
             })
