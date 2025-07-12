@@ -78,7 +78,7 @@ export const Wallet = ({ account }: { account: AccountType }) => {
         <WalletWrapper>
             <Container>
                 <CurrencyImageWrapper>
-                    <CurrencyImage src={imageSVGs[account.name as keyof typeof imageSVGs]} />
+                    <CurrencyImage src={imageSVGs[account.name as keyof typeof imageSVGs] ?? '/naira.svg'} />
                     <Currency>{account.name}</Currency>
                 </CurrencyImageWrapper>
 

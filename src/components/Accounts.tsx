@@ -1,7 +1,9 @@
+import { useState } from "react";
 import styled from "styled-components";
-import { Wallet } from "./Wallet";
-import { AccountType } from '../types';
 import Loader from "../components/shared/Loader";
+import { AccountType } from '../types';
+import { Wallet } from "./Wallet";
+import { WalletModal } from "./WalletModal";
 
 const AccountsWrapper = styled.div`
     padding-left: 65px;
@@ -28,9 +30,14 @@ const Title = styled.h1`
     margin-bottom: 0px;
 `;
 
-const AddWallet = styled.p`
+const AddWallet = styled.button`
     margin-top: 0px;
     margin-bottom: 0px;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
+    font-weight: 500;
 `;
 
 const Divider = styled.hr`
@@ -90,13 +97,24 @@ const Button = styled.button`
     }
 `;
 
-export const Accounts = ({ accounts, errorMessage, loading, refetch }: { accounts: AccountType[], errorMessage: string, loading: boolean, refetch: () => void }) => {
+interface Props { 
+    accounts: AccountType[]
+    errorMessage: string
+    loading: boolean
+    refetch: () => void
+    updateAccounts: (account: AccountType) => void
+}
+
+
+export const Accounts = ({ accounts, errorMessage, loading, refetch, updateAccounts }: Props) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
         <AccountsWrapper>
             <TitleWrapper>
                 <Title>Wallets</Title>
-                {(!loading && !errorMessage) && <AddWallet>+ Add new wallet</AddWallet>}
+                {(!loading && !errorMessage) && <AddWallet onClick={() => setIsModalOpen(true)}>+ Add new wallet</AddWallet>}
+                <WalletModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} updateAccounts={updateAccounts} />
             </TitleWrapper>
             <Divider />
 
@@ -114,7 +132,6 @@ export const Accounts = ({ accounts, errorMessage, loading, refetch }: { account
                         {accounts.map((account) => <Wallet key={account.id} account={account} />)}
                     </CardsWrapper>
                 }
-
         </AccountsWrapper>
     )
 }

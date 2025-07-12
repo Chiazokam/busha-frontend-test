@@ -1,11 +1,17 @@
 import { useContext } from "react";
 import { Accounts } from "../components/Accounts";
-import { Context } from "../context";
+import { AccountsContext } from "../context/accountContext";
 
 export const AccountsPage = () => {
-    const { data, loading, error, refetch } = useContext(Context);
+    const { accounts: { data, loading, error, refetch, updateAccounts } } = useContext(AccountsContext);
 
     return (
-        <Accounts accounts={data} errorMessage={error} loading={loading} refetch={refetch}  />
+        <Accounts
+            accounts={data}
+            errorMessage={error}
+            loading={loading}
+            refetch={refetch}
+            updateAccounts={updateAccounts}
+        />
     )
 }

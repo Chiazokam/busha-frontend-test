@@ -4,7 +4,8 @@ import { Header } from "./components/Header";
 import styled from "styled-components";
 import { NavMenu } from "./components/NavMenu";
 import { AccountsPage } from "./pages/Accounts";
-import { ContextProvider } from "./context";
+import { AccountsContextProvider } from "./context/accountContext";
+import { WalletsContextProvider } from "./context/walletContext";
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -59,28 +60,30 @@ const MainContent = styled.div`
 `;
 
   return (
-    <ContextProvider>
-      <AppContainer>
-          <Header
-            openSidebar={() => setIsSidebarOpen(true)}
-          />
+    <AccountsContextProvider>
+      <WalletsContextProvider>
+        <AppContainer>
+            <Header
+              openSidebar={() => setIsSidebarOpen(true)}
+            />
 
-          <MainWrapper>
-            {isSidebarOpen && <Sidebar onClose={() => setIsSidebarOpen(false)} />}
+            <MainWrapper>
+              {isSidebarOpen && <Sidebar onClose={() => setIsSidebarOpen(false)} />}
 
-              <MainContentWrapper>
-                <NavWrapper>
-                  <NavMenu />
-                </NavWrapper>
+                <MainContentWrapper>
+                  <NavWrapper>
+                    <NavMenu />
+                  </NavWrapper>
 
-                <MainContent>
-                  <AccountsPage />
-                </MainContent>
-              </MainContentWrapper>
-              
-        </MainWrapper>
-      </AppContainer>
-    </ContextProvider>
+                  <MainContent>
+                    <AccountsPage />
+                  </MainContent>
+                </MainContentWrapper>
+                
+          </MainWrapper>
+        </AppContainer>
+      </WalletsContextProvider>
+    </AccountsContextProvider>
   )
 }
 

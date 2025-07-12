@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { NavMenu } from "./NavMenu";
+import { Close } from "./Close";
 
 interface Props {
     onClose: () => void
@@ -29,34 +30,16 @@ const SidebarContainer = styled.div`
 const SidebarHeader = styled.div`
     display: flex;
     justify-content: right;
-    padding-top: 15px;
-    padding-right: 15px;
+    padding-top: 30px;
+    padding-right: 25px;
     margin-bottom: 30px;
-`;
-
-const CloseButton = styled.button`
-    font-weight: 100;
-    cursor: pointer;
-    width: 30px;
-    height: 30px;
-    font-size: 18px;
-    color: $color-dark;
-    border: 0.5px solid #383838;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    @media (min-width: 768px) {
-        display: none;
-    }
 `;
 
 export const Sidebar = ({ onClose }: Props) => {
     return (
         <SidebarContainer>
             <SidebarHeader>
-                <CloseButton onClick={onClose}>&#10007;</CloseButton>
+                <Close onClose={onClose}/>
             </SidebarHeader>
 
             <NavMenu />
