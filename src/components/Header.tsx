@@ -40,7 +40,6 @@ const Avatar = styled.div`
     height: 36px;
     border-radius: 50%;
     background-color: #9AA5B14D;
-    opacity: 30%;
     display: flex;
     justify-content: center;
     align-items: center;

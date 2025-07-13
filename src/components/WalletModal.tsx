@@ -70,6 +70,9 @@ const AddButton = styled.button`
     cursor: pointer;
     padding: 18px 54px;
     width: 222px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     @media (max-width: 480px) {
         padding: 14px 34px;
@@ -160,8 +163,8 @@ export const WalletModal = ({ onClose, isOpen, updateAccounts }: { onClose: () =
     const [selectedWallet, setSelectedWallet] = useState('');
     const [savingWallet, setSavingWallet] = useState(false)
 
-    const handleSelect = (evt: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedWallet(evt.target.value);
+    const handleSelect = (value: string) => {
+        setSelectedWallet(value);
       };
 
     const submitWallet = async () => {
@@ -200,7 +203,7 @@ export const WalletModal = ({ onClose, isOpen, updateAccounts }: { onClose: () =
         
                             <ModalField>
                                 <Fieldlabel htmlFor="wallet">Select wallet</Fieldlabel>
-                                <SelectField id="wallet" value={selectedWallet} onChange={handleSelect}>
+                                <SelectField id="wallet" value={selectedWallet} onChange={(evt) => handleSelect(evt.target.value)}>
                                     <SelectOption>Select an option</SelectOption>
                                     {data.map((wallet: WalletType) => <SelectOption key={wallet.name} value={wallet.currency}>{wallet.name}</SelectOption>)}
                                 </SelectField>
