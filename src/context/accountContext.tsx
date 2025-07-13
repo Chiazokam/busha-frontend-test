@@ -11,8 +11,9 @@ export const AccountsContextProvider = ({ children }: { children: ReactNode }) =
     const isMounted = useMount();
 
     const fetchAccounts = useCallback(async () => {
-        setLoading(true)
         try {
+            setLoading(true)
+            setError('')
             const accounts = await fetch('http://localhost:3090/accounts', {
                 method: 'GET'
             })

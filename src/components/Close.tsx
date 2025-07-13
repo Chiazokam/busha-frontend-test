@@ -10,6 +10,6 @@ const CloseButton = styled.img`
 
 export const Close = ({ onClose }: Props) => {
     return (
-        <CloseButton onClick={onClose} src="/close.svg" />
+        <CloseButton onClick={onClose} src="/close.svg" aria-label="Close button" />
     )
 }

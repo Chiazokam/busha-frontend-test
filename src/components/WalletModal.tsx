@@ -154,32 +154,41 @@ const CloseIcon = styled.img`
 export const WalletModal = ({ onClose, isOpen, updateAccounts }: { onClose: () => void, isOpen: boolean, updateAccounts: (account: AccountType) => void }) => {
     const {
         wallets: { data, loading, error: errorMessage, refetch, saveWallet },
-        wallet: { isSaving, saveError, clearError }}
+        wallet: { error, clearError, setError }}
     = useContext(WalletsContext);
 
     const [selectedWallet, setSelectedWallet] = useState('');
+    const [savingWallet, setSavingWallet] = useState(false)
 
     const handleSelect = (evt: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedWallet(evt.target.value);
       };
 
     const submitWallet = () => {
-        saveWallet({ currency: selectedWallet })
-        const wallet = data.find(wallet => wallet.currency === selectedWallet)
-        updateAccounts({
-            currency: selectedWallet,
-            id: `${selectedWallet}-${wallet?.name}`,
-            hold: 0,
-            pending_balance: 0,
-            balance: 0,
-            name: wallet?.name ?? '',
-            type: wallet?.type ?? 'digital',
-            deposit: true,
-            payout: true,
-            imgURL: wallet?.imgURL ?? ''
-        })
-        setSelectedWallet('')
-        onClose();
+        
+        try {
+            setSavingWallet(true)
+            saveWallet({ currency: selectedWallet })
+            onClose();
+        } catch (err) {
+            setError('Network Error');
+        } finally {
+              const wallet = data.find(wallet => wallet.currency === selectedWallet)
+                setSavingWallet(false)
+                updateAccounts({
+                    currency: selectedWallet,
+                    id: `${selectedWallet}-${wallet?.name}`,
+                    hold: 0,
+                    pending_balance: 0,
+                    balance: 0,
+                    name: wallet?.name ?? '',
+                    type: wallet?.type ?? 'digital',
+                    deposit: true,
+                    payout: true,
+                    imgURL: wallet?.imgURL ?? ''
+                })
+                setSelectedWallet('')
+          }
     }
 
     return (
@@ -212,13 +221,13 @@ export const WalletModal = ({ onClose, isOpen, updateAccounts }: { onClose: () =
                             </ModalField>
         
                             <AddButton onClick={submitWallet}>
-                                {isSaving ? <Loader size={20} /> : 'Create wallet'}
+                                {savingWallet ? <Loader size={20} /> : 'Create wallet'}
                             </AddButton>
 
-                            {saveError && <ErrorContainer>
+                            {error && <ErrorContainer>
                                 <ErrorBody>
                                     <ErrorIcon src="error-diamond.svg" alt="error" />
-                                    <ErrorText>{saveError}</ErrorText>
+                                    <ErrorText>{error}</ErrorText>
                                 </ErrorBody>
 
                                 <CloseIcon onClick={clearError} src="/close-red.svg" alt="close" />
