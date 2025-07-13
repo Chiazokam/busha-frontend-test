@@ -1,10 +1,10 @@
 import { createContext, useState, useEffect, ReactNode, useCallback } from 'react';
-import { WalletSaveType, WalletType } from '../types';
+import { WalletSaveType, WalletType, PromiseFunction, AccountType } from '../types';
 import { useMount } from '../hooks/useMount';
 
 export const WalletsContext = createContext({ 
-    wallets: { data: [] as WalletType[], loading: false, error: '', refetch: () => {}, saveWallet: (wallet: WalletSaveType) => {} },
-    wallet: { data: {} as WalletType | undefined, error: '', setError: (err: string) => {}, clearError: () => {} }
+    wallets: { data: [] as WalletType[], loading: false, error: '', refetch: () => {}, saveWallet: (wallet: WalletSaveType, onSuccess: (data: AccountType) => void) => PromiseFunction },
+    wallet: { error: '', setError: (err: string) => {}, clearError: () => {} }
 });
 
 export const WalletsContextProvider = ({ children }: { children: ReactNode }) => {
@@ -12,7 +12,6 @@ export const WalletsContextProvider = ({ children }: { children: ReactNode }) =>
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [createError, setCreateError] = useState('');
-    const [savedData, setSavedData] = useState<WalletType | undefined>();
     const isMounted = useMount();
 
     const fetchWallets = useCallback(async () => {
@@ -41,18 +40,21 @@ export const WalletsContextProvider = ({ children }: { children: ReactNode }) =>
     }, [fetchWallets])
 
 
-    const saveWallet = async (wallet: WalletSaveType) => {
+    const saveWallet = async (wallet: WalletSaveType, onSuccess: (data: AccountType) => void) => {
         try {
             setCreateError('')
             const created = await fetch('http://localhost:3090/accounts', {
                 method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                  },
                 body: JSON.stringify(wallet)
             })
 
             if (created.ok) {
                 const data = await created.json()
                 setCreateError('')
-                setSavedData(data)
+                onSuccess(data)
             } else {
                 setCreateError('Network Error')
             }
@@ -66,7 +68,7 @@ export const WalletsContextProvider = ({ children }: { children: ReactNode }) =>
     }
 
     return (
-      <WalletsContext.Provider value={{ wallets: { data, loading, error, refetch: fetchWallets, saveWallet }, wallet: { data: savedData, error: createError, setError: setCreateError, clearError }}}>
+      <WalletsContext.Provider value={{ wallets: { data, loading, error, refetch: fetchWallets, saveWallet }, wallet: { error: createError, setError: setCreateError, clearError }}}>
         {children}
       </WalletsContext.Provider>
     );

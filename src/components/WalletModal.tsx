@@ -164,31 +164,17 @@ export const WalletModal = ({ onClose, isOpen, updateAccounts }: { onClose: () =
         setSelectedWallet(evt.target.value);
       };
 
-    const submitWallet = () => {
-        
+    const submitWallet = async () => {
         try {
             setSavingWallet(true)
-            saveWallet({ currency: selectedWallet })
-            onClose();
+            await saveWallet({ currency: selectedWallet }, (data) => {
+                setSelectedWallet('')
+                onClose()
+                updateAccounts(data)
+            })
         } catch (err) {
             setError('Network Error');
-        } finally {
-              const wallet = data.find(wallet => wallet.currency === selectedWallet)
-                setSavingWallet(false)
-                updateAccounts({
-                    currency: selectedWallet,
-                    id: `${selectedWallet}-${wallet?.name}`,
-                    hold: 0,
-                    pending_balance: 0,
-                    balance: 0,
-                    name: wallet?.name ?? '',
-                    type: wallet?.type ?? 'digital',
-                    deposit: true,
-                    payout: true,
-                    imgURL: wallet?.imgURL ?? ''
-                })
-                setSelectedWallet('')
-          }
+        }
     }
 
     return (
