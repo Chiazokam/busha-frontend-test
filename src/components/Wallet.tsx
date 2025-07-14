@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { AccountType } from '../types';
-import { formatBalance } from '../utils';
 
 const imageSVGs = {
     Naira: '/naira.svg',
