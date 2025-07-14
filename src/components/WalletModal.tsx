@@ -76,7 +76,7 @@ const AddButton = styled.button`
 
     @media (max-width: 480px) {
         padding: 14px 34px;
-        width: auto;
+        width: 180px;
     }
 `;
 

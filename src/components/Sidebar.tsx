@@ -22,7 +22,7 @@ const SidebarContainer = styled.div`
         display: none;
     }
 
-    @media (max-width: 380px) {
+    @media (max-width: 470px) {
         width: 100%;
     }
 `;
