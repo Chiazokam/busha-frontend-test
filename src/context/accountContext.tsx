@@ -14,7 +14,7 @@ export const AccountsContextProvider = ({ children }: { children: ReactNode }) =
         try {
             setLoading(true)
             setError('')
-            const accounts = await fetch('http://localhost:3090/accounts', {
+            const accounts = await fetch(`${process.env.REACT_APP_BASE_URL}/accounts`, {
                 method: 'GET'
             })
 

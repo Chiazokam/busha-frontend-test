@@ -18,7 +18,7 @@ export const WalletsContextProvider = ({ children }: { children: ReactNode }) =>
         try {
             setLoading(true)
             setError('')
-            const wallets = await fetch('http://localhost:3090/wallets', {
+            const wallets = await fetch(`${process.env.REACT_APP_BASE_URL}/wallets`, {
                 method: 'GET'
             })
 
@@ -43,7 +43,7 @@ export const WalletsContextProvider = ({ children }: { children: ReactNode }) =>
     const saveWallet = async (wallet: WalletSaveType, onSuccess: (data: AccountType) => void) => {
         try {
             setCreateError('')
-            const created = await fetch('http://localhost:3090/accounts', {
+            const created = await fetch(`${process.env.REACT_APP_BASE_URL}/accounts`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
